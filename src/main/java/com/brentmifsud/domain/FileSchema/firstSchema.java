@@ -6,11 +6,7 @@ public class firstSchema {
     private String address;
     private String phoneNum;
 
-    public firstSchema(String id, String name, String address, String phoneNum) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.phoneNum = phoneNum;
+    public firstSchema() {
     }
 
     public String getId() {

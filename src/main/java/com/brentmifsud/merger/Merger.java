@@ -33,10 +33,10 @@ public class Merger {
             //Add more cases as you add more supported file types
             switch(SupportedFileTypes.valueOf(extension.toUpperCase())){
                 case HTML:
-                    htmlParser.parseFileToPojo(file, firstSchema.class);
+                    htmlParser.parseTableToPojoList(file, firstSchema.class);
                     break;
                 case CSV:
-                    System.out.println("csvParser.parseFileToPojo(file, firstSchema.class);");
+                    System.out.println("csvParser.parseTableToPojoList(file, firstSchema.class);");
                     break;
                 default:
                     //This will never be reached

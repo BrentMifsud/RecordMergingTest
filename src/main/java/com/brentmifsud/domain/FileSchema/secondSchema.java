@@ -6,11 +6,7 @@ public class secondSchema {
     private String gender;
     private String id;
 
-    public secondSchema(String occupation, String name, String gender, String id) {
-        this.occupation = occupation;
-        this.name = name;
-        this.gender = gender;
-        this.id = id;
+    public secondSchema() {
     }
 
     public String getOccupation() {

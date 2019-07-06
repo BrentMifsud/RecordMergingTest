@@ -4,5 +4,5 @@ import java.io.File;
 import java.util.List;
 
 public interface IParser {
-    <T> List<T> parseFileToPojo(File file, Class<T> schema);
+    <T> List<T> parseTableToPojoList(File file, Class<T> schema);
 }
