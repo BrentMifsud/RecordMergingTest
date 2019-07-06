@@ -1,7 +1,9 @@
 package com.brentmifsud.merger;
 
 import com.brentmifsud.domain.FileSchema.firstSchema;
+import com.brentmifsud.domain.FileSchema.secondSchema;
 import com.brentmifsud.domain.SupportedFileTypes;
+import com.brentmifsud.parser.CsvParser;
 import com.brentmifsud.parser.HtmlParser;
 import org.apache.commons.io.FilenameUtils;
 
@@ -12,6 +14,7 @@ import java.util.List;
 public class Merger {
 
     HtmlParser htmlParser = new HtmlParser();
+    CsvParser csvParser = new CsvParser();
 
     public void prepareFiles(String[] filePaths) {
         List<File> files = new ArrayList<>();
@@ -27,16 +30,18 @@ public class Merger {
             }
         }
 
+        List<Object> parsedFiles = new ArrayList<>();
+
         for (File file : files){
             String extension = FilenameUtils.getExtension(file.getName());
 
             //Add more cases as you add more supported file types
             switch(SupportedFileTypes.valueOf(extension.toUpperCase())){
                 case HTML:
-                    htmlParser.parseTableToPojoList(file, firstSchema.class);
+                    parsedFiles.add(htmlParser.parseTableToPojoList(file, firstSchema.class));
                     break;
                 case CSV:
-                    System.out.println("csvParser.parseTableToPojoList(file, firstSchema.class);");
+                    parsedFiles.add(csvParser.parseTableToPojoList(file, secondSchema.class));
                     break;
                 default:
                     //This will never be reached

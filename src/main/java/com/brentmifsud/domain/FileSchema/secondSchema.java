@@ -1,9 +1,15 @@
 package com.brentmifsud.domain.FileSchema;
 
+import com.opencsv.bean.CsvBindByName;
+
 public class secondSchema {
+    @CsvBindByName(column = "Occupation")
     private String occupation;
+    @CsvBindByName(column = "Name")
     private String name;
+    @CsvBindByName(column = "Gender")
     private String gender;
+    @CsvBindByName(column = "ID")
     private String id;
 
     public secondSchema() {
