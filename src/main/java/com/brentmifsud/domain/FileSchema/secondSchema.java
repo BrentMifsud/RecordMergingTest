@@ -1,10 +1,10 @@
 package com.brentmifsud.domain.FileSchema;
 
 public class secondSchema {
-    String occupation;
-    String name;
-    String gender;
-    String id;
+    private String occupation;
+    private String name;
+    private String gender;
+    private String id;
 
     public secondSchema(String occupation, String name, String gender, String id) {
         this.occupation = occupation;

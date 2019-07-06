@@ -1,10 +1,10 @@
 package com.brentmifsud.domain.FileSchema;
 
 public class firstSchema {
-    String id;
-    String name;
-    String address;
-    String phoneNum;
+    private String id;
+    private String name;
+    private String address;
+    private String phoneNum;
 
     public firstSchema(String id, String name, String address, String phoneNum) {
         this.id = id;
