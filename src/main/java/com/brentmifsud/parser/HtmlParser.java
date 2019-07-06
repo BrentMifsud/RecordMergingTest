@@ -36,11 +36,9 @@ public class HtmlParser implements IParser {
         }
 
         //Get the table
-        Element table = requireNonNull(doc).getElementById("directory");
+        Elements table = requireNonNull(doc).getElementsByTag("tr");
 
-        //Get the rows from the table
-        Elements rows = table.getElementsByTag("tr");
-        List<T> tList = getTs(schema, rows);
+        List<T> tList = getTs(schema, table);
 
         return tList;
     }
