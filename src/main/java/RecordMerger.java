@@ -1,6 +1,9 @@
-import com.brentmifsud.domain.FileType;
+import com.brentmifsud.domain.SupportedFileTypes;
+import com.brentmifsud.merger.Merger;
 
 public class RecordMerger {
+
+	private static final Merger merger = new Merger();
 
 	public static final String FILENAME_COMBINED = "combined.csv";
 
@@ -19,18 +22,25 @@ public class RecordMerger {
 
 		// your code starts here.
 
+		/*
+		* ASSUMPTION:
+		* file path is passed as argument into program rather than just file name.
+		*
+		* example mac usage: java RecordMerger /Users/<username>/Desktop/file1.html .../file2.csv
+		* example windows usage; java RecordMerger C:/Users/<username>/Desktop/file1.html .../file2.csv
+		*/
+
         // Ensure all input files are supported file types
-        for (String arg : args){
-			if (!FileType.isSupportedFileType(arg)){
+		for (String arg : args){
+			if (!SupportedFileTypes.isSupportedFileType(arg)){
 			    System.out.println("Input file extension is not supported.");
 			    System.out.println("Please input one of the following file types:");
-			    for(FileType fileExtension : FileType.values()){
-			        System.out.println(fileExtension.name());
+			    for(SupportedFileTypes fileExtension : SupportedFileTypes.values()){
+			        System.out.println("- " + fileExtension.name());
                 }
-			    System.exit(1);
             }
 		}
 
-
+        merger.prepareFiles(args);
 	}
 }

@@ -10,12 +10,12 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class FileTypeTest {
+class SupportedFileTypesTest {
 
     @ParameterizedTest(name = "{displayName} [{index}] {arguments}")
     @ArgumentsSource(FileTypeArguments.class)
     void isSupportedFileType(FileTypeArgument args) {
-        assertThat(FileType.isSupportedFileType(args.fileName)).isEqualTo(args.expectedResult);
+        assertThat(SupportedFileTypes.isSupportedFileType(args.fileName)).isEqualTo(args.expectedResult);
     }
 
     static class FileTypeArgument {
@@ -39,14 +39,14 @@ class FileTypeTest {
             return Stream.of(
                     Arguments.of(
                             new FileTypeArgument(
-                                    "Valid FileType with single extension",
+                                    "Valid SupportedFileTypes with single extension",
                                     "test.html",
                                     true
                             )
                     ),
                     Arguments.of(
                             new FileTypeArgument(
-                                    "Valid FileType with multiple extensions",
+                                    "Valid SupportedFileTypes with multiple extensions",
                                     "test.abc.html",
                                     true
                             )
