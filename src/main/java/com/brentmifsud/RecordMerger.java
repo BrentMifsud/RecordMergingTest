@@ -1,3 +1,5 @@
+package com.brentmifsud;
+
 import com.brentmifsud.domain.SupportedFileTypes;
 import com.brentmifsud.merger.Merger;
 

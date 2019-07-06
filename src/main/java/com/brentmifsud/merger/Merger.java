@@ -8,8 +8,16 @@ import com.brentmifsud.parser.HtmlParser;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.FileAttribute;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.brentmifsud.RecordMerger.FILENAME_COMBINED;
 
 public class Merger {
 
@@ -32,11 +40,11 @@ public class Merger {
 
         List<Object> parsedFiles = new ArrayList<>();
 
-        for (File file : files){
+        for (File file : files) {
             String extension = FilenameUtils.getExtension(file.getName());
 
             //Add more cases as you add more supported file types
-            switch(SupportedFileTypes.valueOf(extension.toUpperCase())){
+            switch (SupportedFileTypes.valueOf(extension.toUpperCase())) {
                 case HTML:
                     parsedFiles.add(htmlParser.parseTableToPojoList(file, firstSchema.class));
                     break;
@@ -47,6 +55,15 @@ public class Merger {
                     //This will never be reached
                     break;
             }
+        }
+
+        mergeFiles(parsedFiles);
+    }
+
+    private void mergeFiles(List<Object> parsedFiles) {
+        File outputFile = new File("out/" + FILENAME_COMBINED);
+        if (outputFile.getParentFile() != null) {
+            outputFile.getParentFile().mkdirs();
         }
     }
 }
