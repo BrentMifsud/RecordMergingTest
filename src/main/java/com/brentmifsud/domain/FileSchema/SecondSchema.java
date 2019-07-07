@@ -2,7 +2,7 @@ package com.brentmifsud.domain.FileSchema;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class secondSchema {
+public class SecondSchema {
     @CsvBindByName(column = "Occupation")
     private String occupation;
     @CsvBindByName(column = "Name")
@@ -12,7 +12,7 @@ public class secondSchema {
     @CsvBindByName(column = "ID")
     private String id;
 
-    public secondSchema() {
+    public SecondSchema() {
     }
 
     public String getOccupation() {
@@ -49,7 +49,7 @@ public class secondSchema {
 
     @Override
     public String toString() {
-        return "secondSchema{" +
+        return "SecondSchema{" +
                 "occupation='" + occupation + '\'' +
                 ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +

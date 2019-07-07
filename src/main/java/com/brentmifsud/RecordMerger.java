@@ -43,6 +43,6 @@ public class RecordMerger {
             }
 		}
 
-        merger.prepareFiles(args);
+        merger.prepareFilesForMerging(args);
 	}
 }

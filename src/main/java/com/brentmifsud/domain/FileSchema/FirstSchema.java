@@ -1,12 +1,12 @@
 package com.brentmifsud.domain.FileSchema;
 
-public class firstSchema {
+public class FirstSchema {
     private String id;
     private String name;
     private String address;
     private String phoneNum;
 
-    public firstSchema() {
+    public FirstSchema() {
     }
 
     public String getId() {
@@ -43,7 +43,7 @@ public class firstSchema {
 
     @Override
     public String toString() {
-        return "firstSchema{" +
+        return "FirstSchema{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
