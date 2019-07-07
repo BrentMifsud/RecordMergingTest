@@ -15,6 +15,13 @@ public class SecondSchema {
     public SecondSchema() {
     }
 
+    public SecondSchema(String occupation, String name, String gender, String id) {
+        this.occupation = occupation;
+        this.name = name;
+        this.gender = gender;
+        this.id = id;
+    }
+
     public String getOccupation() {
         return occupation;
     }
