@@ -15,7 +15,10 @@
     The output will be saved in the same folder as RecordMerger-1.0.jar: 
     `RecordMerger/build/libs/out/combined.csv`
 
+###Note: 
 
+if you start your file path with `/` or `C:/` the application will take a full file path.
+if you start it with a folder name, it will use filepath relative to RecordMerger folder.
 
 Overview
 --------
