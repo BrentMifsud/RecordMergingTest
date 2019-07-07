@@ -15,9 +15,6 @@ import java.util.*;
 import static com.brentmifsud.RecordMerger.FILENAME_COMBINED;
 
 public class FileMerger {
-
-    //This hashmap will contain the combined record for each customer.
-    private Map<String, Map<String, String>> dataMap = new HashMap<>();
     private HtmlParser htmlParser = new HtmlParser();
     private CsvParser csvParser = new CsvParser();
 
@@ -36,6 +33,7 @@ public class FileMerger {
         }
 
         Set<String> idSet = new HashSet<>();
+        Map<String, Map<String, String>> dataMap = new HashMap<>();
 
         for (File file : files) {
             String extension = FilenameUtils.getExtension(file.getName());
@@ -53,6 +51,8 @@ public class FileMerger {
                         customer.put("Address", item.getAddress());
                         customer.put("PhoneNum", item.getPhoneNum());
                         dataMap.put(id, customer);
+
+                        System.out.println("Finished parsing: " + file.getName());
                     }
                     break;
                 case CSV:
@@ -66,6 +66,8 @@ public class FileMerger {
                         customer.put("Gender", item.getGender());
                         customer.put("Occupation", item.getOccupation());
                         dataMap.put(id, customer);
+
+                        System.out.println("Finished parsing: " + file.getName());
                     }
                     break;
                 default:
