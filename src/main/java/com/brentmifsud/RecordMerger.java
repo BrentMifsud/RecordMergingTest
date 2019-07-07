@@ -1,11 +1,11 @@
 package com.brentmifsud;
 
 import com.brentmifsud.domain.SupportedFileTypes;
-import com.brentmifsud.merger.Merger;
+import com.brentmifsud.merger.FileMerger;
 
 public class RecordMerger {
 
-	private static final Merger merger = new Merger();
+	private static final FileMerger merger = new FileMerger();
 
 	public static final String FILENAME_COMBINED = "combined.csv";
 

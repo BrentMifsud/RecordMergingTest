@@ -14,7 +14,7 @@ import java.util.*;
 
 import static com.brentmifsud.RecordMerger.FILENAME_COMBINED;
 
-public class Merger {
+public class FileMerger {
 
     //This hashmap will contain the combined record for each customer.
     private Map<String, Map<String, String>> dataMap = new HashMap<>();
