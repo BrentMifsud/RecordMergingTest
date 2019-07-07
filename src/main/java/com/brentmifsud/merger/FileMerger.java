@@ -99,7 +99,7 @@ public class FileMerger {
         //Prepare Output File
         File outputFile = new File("out/" + FILENAME_COMBINED);
         if (outputFile.getParentFile() != null) outputFile.getParentFile().mkdirs();
-        //If theres already an output file, clear it.
+        //If there is already an output file, clear it.
         if (outputFile.exists()) outputFile.delete();
         outputFile.createNewFile();
 
@@ -111,18 +111,9 @@ public class FileMerger {
         dataMap.get(maxPropertiesId).forEach((k, v) -> headerFields.add(k));
         StringBuilder headerLine = new StringBuilder();
         for (int i = 0; i < headerFields.size(); i++) {
-            if (i == headerFields.size() - 1) {
-                headerLine
-                        .append('"')
-                        .append(headerFields.get(i))
-                        .append('"');
-            } else {
-                headerLine
-                        .append('"')
-                        .append(headerFields.get(i))
-                        .append('"')
-                        .append(',');
-            }
+            if (i == headerFields.size() - 1)
+                headerLine.append('"').append(headerFields.get(i)).append('"');
+            else headerLine.append('"').append(headerFields.get(i)).append('"').append(',');
         }
         pw.println(headerLine);
 
@@ -134,22 +125,10 @@ public class FileMerger {
             for (String field : headerFields) {
                 String rec = record.get(field);
                 if (i == headerFields.size() - 1) {
-                    if (rec != null)
-                        recordString
-                                .append('"')
-                                .append(rec)
-                                .append('"');
+                    if (rec != null) recordString.append('"').append(rec).append('"');
                 } else {
-                    if (rec != null)
-                        recordString
-                                .append('"')
-                                .append(rec)
-                                .append('"')
-                                .append(',');
-                    else recordString
-                            .append('"')
-                            .append('"')
-                            .append(',');
+                    if (rec != null) recordString.append('"').append(rec).append('"').append(',');
+                    else recordString.append('"').append('"').append(',');
                 }
                 i++;
             }
