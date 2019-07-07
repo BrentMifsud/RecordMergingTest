@@ -55,7 +55,6 @@ public class HtmlParser implements IParser {
         tConstructor.setAccessible(true);
         for (Field field : fields) {
             field.setAccessible(true);
-            System.out.println(field);
         }
 
         for (int i = 1; i < rows.size(); i++) {
