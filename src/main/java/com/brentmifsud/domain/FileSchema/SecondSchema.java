@@ -2,6 +2,9 @@ package com.brentmifsud.domain.FileSchema;
 
 import com.opencsv.bean.CsvBindByName;
 
+/**
+ * This is the schema for second.csv
+ */
 public class SecondSchema {
     @CsvBindByName(column = "Occupation")
     private String occupation;

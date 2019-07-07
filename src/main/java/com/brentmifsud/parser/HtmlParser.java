@@ -38,6 +38,7 @@ public class HtmlParser implements IParser {
         //Get the table
         Elements table = requireNonNull(doc).getElementsByTag("tr");
 
+        //Populate list of T using every row in the html table
         List<T> tList = getTs(schema, table);
 
         return tList;
@@ -60,6 +61,7 @@ public class HtmlParser implements IParser {
         for (int i = 1; i < rows.size(); i++) {
             List<String> values = getChildStrings(rows.get(i).getElementsByTag("td"));
 
+            //Instantiate a new instance of T and populate its fields using reflection
             try {
                 T t = schema.newInstance();
                 for (int f = 0; f < fields.length; f++) {
@@ -74,6 +76,8 @@ public class HtmlParser implements IParser {
     }
 
     private List<String> getChildStrings(Elements row) {
+        //Since html text with formatting is split into seperate elements,
+        //we need use .text function to get it concatenated into a single string
         List<String> values = new ArrayList<>();
         for (Element element : row) {
             values.add(element.text());

@@ -10,7 +10,10 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.brentmifsud.RecordMerger.FILENAME_COMBINED;
 
@@ -18,6 +21,12 @@ public class FileMerger {
     private HtmlParser htmlParser = new HtmlParser();
     private CsvParser csvParser = new CsvParser();
 
+    /**
+     * Validates the files passed in as arguments
+     *
+     * @param args file paths
+     * @return List of Files
+     */
     public List<File> prepareInputFiles(String[] args) {
         // Ensure all input files are valid
         List<File> files = new ArrayList<>();
@@ -40,8 +49,7 @@ public class FileMerger {
         return files;
     }
 
-    public void prepareFilesForMerging(List<File> files) {
-        Set<String> idSet = new HashSet<>();
+    public Map<String, Map<String, String>> parseFiles(List<File> files) {
         Map<String, Map<String, String>> dataMap = new HashMap<>();
 
         for (File file : files) {
@@ -53,7 +61,6 @@ public class FileMerger {
                     List<FirstSchema> htmlData = htmlParser.parseTableToPojoList(file, FirstSchema.class);
                     for (FirstSchema item : htmlData) {
                         String id = item.getId();
-                        idSet.add(id);
                         Map<String, String> customer = dataMap.get(id) != null ? dataMap.get(id) : new HashMap<>();
                         customer.put("ID", id);
                         customer.put("Name", item.getName());
@@ -68,7 +75,6 @@ public class FileMerger {
                     List<SecondSchema> csvData = csvParser.parseTableToPojoList(file, SecondSchema.class);
                     for (SecondSchema item : csvData) {
                         String id = item.getId();
-                        idSet.add(id);
                         Map<String, String> customer = dataMap.get(id) != null ? dataMap.get(id) : new HashMap<>();
                         customer.put("ID", id);
                         customer.put("Name", item.getName());
@@ -85,34 +91,25 @@ public class FileMerger {
             }
         }
 
-        try {
-            writeOutputFile(dataMap, idSet);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return dataMap;
     }
 
-    private void writeOutputFile(Map<String, Map<String, String>> dataMap, Set<String> idSet) throws IOException {
-        //Find the record with the most fields
+    public void writeOutputFile(Map<String, Map<String, String>> dataMap) throws IOException {
+        //Find the record that has data in every column and store its key.
+        //We need this to build the header.
         int maxProperties = 0;
         String maxPropertiesId = "";
-        for (String id : idSet) {
-            int size = dataMap.get(id).values().size();
-            if (size > maxProperties) {
-                maxPropertiesId = id;
-                maxProperties = size;
+        for (Map.Entry<String, Map<String, String>> pair : dataMap.entrySet()) {
+            if (pair.getValue().values().size() >= maxProperties) {
+                maxProperties = pair.getValue().values().size();
+                maxPropertiesId = pair.getKey();
             }
         }
 
         //Build and write header
         List<String> headerFields = new ArrayList<>();
         dataMap.get(maxPropertiesId).forEach((k, v) -> headerFields.add(k));
-        StringBuilder headerLine = new StringBuilder();
-        for (int i = 0; i < headerFields.size(); i++) {
-            if (i == headerFields.size() - 1) {
-                headerLine.append('"').append(headerFields.get(i)).append('"');
-            } else headerLine.append('"').append(headerFields.get(i)).append('"').append(',');
-        }
+        String headerLine = getOutputHeader(headerFields);
 
         PrintWriter pw;
         try {
@@ -124,30 +121,24 @@ public class FileMerger {
         pw.println(headerLine);
 
         //Build and write the merged records
-        for (String item : idSet) {
-            Map<String, String> record = dataMap.get(item);
-            StringBuilder recordString = new StringBuilder();
-            int i = 0;
-            for (String field : headerFields) {
-                String rec = record.get(field);
-                if (i == headerFields.size() - 1) {
-                    if (rec != null) recordString.append('"').append(rec).append('"');
-                } else {
-                    if (rec != null) recordString.append('"').append(rec).append('"').append(',');
-                    else recordString.append('"').append('"').append(',');
-                }
-                i++;
-            }
+        for (Map.Entry<String, Map<String, String>> pair : dataMap.entrySet()) {
+            Map<String, String> record = pair.getValue();
+            StringBuilder recordString = getOutputRecord(headerFields, record);
             pw.println(recordString);
         }
 
+        //Close the print writer
         pw.close();
     }
+
+
+    //Helper Methods
 
     private PrintWriter getOutputFilePrintWriter() throws IOException {
         //Prepare Output File
         File outputFile = new File("out/" + FILENAME_COMBINED);
         if (outputFile.getParentFile() != null) outputFile.getParentFile().mkdirs();
+
         //If there is already an output file, clear it.
         if (outputFile.exists()) outputFile.delete();
 
@@ -158,5 +149,31 @@ public class FileMerger {
         }
 
         return new PrintWriter(outputFile);
+    }
+
+    private String getOutputHeader(List<String> headerFields) {
+        StringBuilder headerLine = new StringBuilder();
+        for (int i = 0; i < headerFields.size(); i++) {
+            if (i == headerFields.size() - 1) {
+                headerLine.append('"').append(headerFields.get(i)).append('"');
+            } else headerLine.append('"').append(headerFields.get(i)).append('"').append(',');
+        }
+        return headerLine.toString();
+    }
+
+    private StringBuilder getOutputRecord(List<String> headerFields, Map<String, String> record) {
+        StringBuilder recordString = new StringBuilder();
+        int i = 0;
+        for (String field : headerFields) {
+            String rec = record.get(field);
+            if (i == headerFields.size() - 1) {
+                if (rec != null) recordString.append('"').append(rec).append('"');
+            } else {
+                if (rec != null) recordString.append('"').append(rec).append('"').append(',');
+                else recordString.append('"').append('"').append(',');
+            }
+            i++;
+        }
+        return recordString;
     }
 }

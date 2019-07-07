@@ -16,10 +16,12 @@ import static com.google.common.io.Files.newReader;
 public class CsvParser implements IParser {
     @Override
     public <T> List<T> parseTableToPojoList(File file, Class<T> schema) {
+        //Mapping strategy is based on the column name annotation in the schema
         MappingStrategy<Object> mappingStrategy = new HeaderColumnNameMappingStrategy<>();
         mappingStrategy.setType(schema);
 
         List<T> tList = null;
+        //Use opencsv to read the records into schema T
         try {
             Reader reader = newReader(file, Charset.defaultCharset());
             CsvToBean cb = new CsvToBeanBuilder<>(reader)
