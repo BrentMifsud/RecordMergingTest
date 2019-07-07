@@ -34,6 +34,7 @@ public class RecordMerger {
 		* example windows usage: -jar java RecordMerger/build/libs/RecordMerger-1.0-SNAPSHOT.jar C:/Users/<username>/Desktop/file1.html .../file2.csv
 		*
 		* NOTE: I use a mac at home so I didn't get a chance to test the above examples on the windows command line.
+		* NOTE: Output is written to out/combined.csv
 		*
 		* ASSUMPTION 2:
 		* All records are to be included in the output file.

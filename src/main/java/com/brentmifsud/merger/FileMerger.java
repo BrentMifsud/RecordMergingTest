@@ -104,26 +104,24 @@ public class FileMerger {
             }
         }
 
-
-        //Prepare Output File
-        File outputFile = new File("out/" + FILENAME_COMBINED);
-        if (outputFile.getParentFile() != null) outputFile.getParentFile().mkdirs();
-        //If there is already an output file, clear it.
-        if (outputFile.exists()) outputFile.delete();
-        outputFile.createNewFile();
-
-        PrintWriter pw = new PrintWriter(outputFile);
-
-
         //Build and write header
         List<String> headerFields = new ArrayList<>();
         dataMap.get(maxPropertiesId).forEach((k, v) -> headerFields.add(k));
         StringBuilder headerLine = new StringBuilder();
         for (int i = 0; i < headerFields.size(); i++) {
-            if (i == headerFields.size() - 1)
+            if (i == headerFields.size() - 1) {
                 headerLine.append('"').append(headerFields.get(i)).append('"');
+            }
             else headerLine.append('"').append(headerFields.get(i)).append('"').append(',');
         }
+
+        PrintWriter pw;
+        try {
+            pw = getOutputFilePrintWriter();
+        } catch (IOException e) {
+            throw new IOException("Unable to create PrintWriter for output");
+        }
+
         pw.println(headerLine);
 
         //Build and write the merged records
@@ -143,6 +141,23 @@ public class FileMerger {
             }
             pw.println(recordString);
         }
+
         pw.close();
+    }
+
+    private PrintWriter getOutputFilePrintWriter() throws IOException {
+        //Prepare Output File
+        File outputFile = new File("out/" + FILENAME_COMBINED);
+        if (outputFile.getParentFile() != null) outputFile.getParentFile().mkdirs();
+        //If there is already an output file, clear it.
+        if (outputFile.exists()) outputFile.delete();
+
+        try {
+            outputFile.createNewFile();
+        } catch (IOException e) {
+            throw new IOException("Unable to create output file: " + outputFile.getName());
+        }
+
+        return new PrintWriter(outputFile);
     }
 }
