@@ -61,8 +61,8 @@ public class FileMerger {
                         customer.put("PhoneNum", item.getPhoneNum());
                         dataMap.put(id, customer);
 
-                        System.out.println("Finished parsing: " + file.getName());
                     }
+                    System.out.println("Finished parsing: " + file.getName());
                     break;
                 case CSV:
                     List<SecondSchema> csvData = csvParser.parseTableToPojoList(file, SecondSchema.class);
@@ -76,8 +76,8 @@ public class FileMerger {
                         customer.put("Occupation", item.getOccupation());
                         dataMap.put(id, customer);
 
-                        System.out.println("Finished parsing: " + file.getName());
                     }
+                    System.out.println("Finished parsing: " + file.getName());
                     break;
                 default:
                     //This will never be reached
