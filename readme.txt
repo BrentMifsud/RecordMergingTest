@@ -1,3 +1,26 @@
+USAGE INSTRUCTIONS:
+-------------------
+
+If for some reason the build folder is missing, in the command line, navigate to the RecordMerger folder.
+Then enter:
+
+On Mac:
+./gradlew cleanBuild
+
+On Windows:
+gradlew cleanbuild
+
+To run the application:
+
+1. Navigate to build/libs/ folder in your terminal
+2. enter:
+
+java -jar RecordMerger-1.0.jar RecordMerger/src/main/resources/first.html RecordMerger/src/main/resources/second.csv
+
+The output will be saved in the same folder as RecordMerger-1.0.jar (RecordMerger/build/libs/out/combined.csv)
+
+
+
 Overview
 --------
 Given the 2 sample files: "first.html" and "second.csv" under the "data" directory,
