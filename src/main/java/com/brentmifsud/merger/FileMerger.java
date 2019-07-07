@@ -111,8 +111,7 @@ public class FileMerger {
         for (int i = 0; i < headerFields.size(); i++) {
             if (i == headerFields.size() - 1) {
                 headerLine.append('"').append(headerFields.get(i)).append('"');
-            }
-            else headerLine.append('"').append(headerFields.get(i)).append('"').append(',');
+            } else headerLine.append('"').append(headerFields.get(i)).append('"').append(',');
         }
 
         PrintWriter pw;

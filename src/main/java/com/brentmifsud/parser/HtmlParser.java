@@ -26,7 +26,7 @@ public class HtmlParser implements IParser {
      */
     @Override
     public <T> List<T> parseTableToPojoList(File file, Class<T> schema) {
-                //Parse html with jsoup
+        //Parse html with jsoup
         Document doc = null;
 
         try {
