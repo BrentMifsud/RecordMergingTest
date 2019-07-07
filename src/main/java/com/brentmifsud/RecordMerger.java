@@ -1,12 +1,13 @@
 package com.brentmifsud;
 
-import com.brentmifsud.domain.SupportedFileTypes;
 import com.brentmifsud.merger.FileMerger;
+
+import java.io.File;
+import java.util.List;
 
 public class RecordMerger {
 
-	private static final FileMerger merger = new FileMerger();
-
+	private static final FileMerger fileMerger = new FileMerger();
 	public static final String FILENAME_COMBINED = "combined.csv";
 
 	/**
@@ -32,6 +33,8 @@ public class RecordMerger {
 		* example mac usage: java -jar RecordMerger/build/libs/RecordMerger-1.0-SNAPSHOT.jar /Users/<username>/Desktop/file1.html .../file2.csv
 		* example windows usage: -jar java RecordMerger/build/libs/RecordMerger-1.0-SNAPSHOT.jar C:/Users/<username>/Desktop/file1.html .../file2.csv
 		*
+		* NOTE: I use a mac at home so I didn't get a chance to test the above examples on the windows command line.
+		*
 		* ASSUMPTION 2:
 		* All records are to be included in the output file.
 		* The record IDs that only exist in a single file will have some fields as empty strings.
@@ -43,18 +46,8 @@ public class RecordMerger {
 		* "Teacher","456 Orange Street","555-5678","5555","Female","Jane Doe"
 		* "Pilot","","","6666","Male","Jerry Springfield"
 		*/
-
-        // Ensure all input files are supported file types
-		for (String arg : args){
-			if (!SupportedFileTypes.isSupportedFileType(arg)){
-			    System.out.println("Input file extension is not supported.");
-			    System.out.println("Please input one of the following file types:");
-			    for(SupportedFileTypes fileExtension : SupportedFileTypes.values()){
-			        System.out.println("- " + fileExtension.name());
-                }
-            }
-		}
-
-        merger.prepareFilesForMerging(args);
+		List<File> validatedFiles = fileMerger.prepareInputFiles(args);
+		fileMerger.prepareFilesForMerging(validatedFiles);
 	}
+
 }

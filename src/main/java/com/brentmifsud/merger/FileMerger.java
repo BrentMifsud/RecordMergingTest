@@ -18,20 +18,29 @@ public class FileMerger {
     private HtmlParser htmlParser = new HtmlParser();
     private CsvParser csvParser = new CsvParser();
 
-    public void prepareFilesForMerging(String[] filePaths) {
+    public List<File> prepareInputFiles(String[] args) {
+        // Ensure all input files are valid
         List<File> files = new ArrayList<>();
-
-        for (String filePath : filePaths) {
-            File file = new File(filePath);
-
-            if (file.canRead()) {
-                files.add(new File(filePath));
+        for (String arg : args) {
+            if (!SupportedFileTypes.isSupportedFileType(arg)) {
+                System.out.println("Input file extension is not supported.");
+                System.out.println("Please input one of the following file types:");
+                for (SupportedFileTypes fileExtension : SupportedFileTypes.values()) {
+                    System.out.println("- " + fileExtension.name());
+                }
             } else {
-                System.out.println("Cannot read file: " + filePath);
-                System.exit(1);
+                File file = new File(arg);
+                if (file.canRead()) files.add(file);
+                else {
+                    System.out.println("Cannot read File: " + file.getName());
+                    System.exit(1);
+                }
             }
         }
+        return files;
+    }
 
+    public void prepareFilesForMerging(List<File> files) {
         Set<String> idSet = new HashSet<>();
         Map<String, Map<String, String>> dataMap = new HashMap<>();
 
