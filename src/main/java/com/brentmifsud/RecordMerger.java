@@ -3,7 +3,9 @@ package com.brentmifsud;
 import com.brentmifsud.merger.FileMerger;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class RecordMerger {
 
@@ -50,7 +52,13 @@ public class RecordMerger {
          * "Pilot","","","6666","Male","Jerry Springfield"
          */
         List<File> validatedFiles = fileMerger.prepareInputFiles(args);
-        fileMerger.prepareFilesForMerging(validatedFiles);
+        Map<String, Map<String,String>> dataMap = fileMerger.parseFiles(validatedFiles);
+
+        try {
+            fileMerger.writeOutputFile(dataMap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

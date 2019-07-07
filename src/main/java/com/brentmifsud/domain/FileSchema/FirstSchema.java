@@ -1,5 +1,8 @@
 package com.brentmifsud.domain.FileSchema;
 
+/**
+ * This is the schema for first.html
+ */
 public class FirstSchema {
     private String id;
     private String name;
