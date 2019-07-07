@@ -89,6 +89,7 @@ public class Merger {
             int size = dataMap.get(id).values().size();
             if (size > maxProperties) {
                 maxPropertiesId = id;
+                maxProperties = size;
             }
         }
 
