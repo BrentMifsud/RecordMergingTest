@@ -109,9 +109,16 @@ public class Merger {
         StringBuilder headerLine = new StringBuilder();
         for (int i = 0; i < headerFields.size(); i++) {
             if (i == headerFields.size() - 1) {
-                headerLine.append(headerFields.get(i));
+                headerLine
+                        .append('"')
+                        .append(headerFields.get(i))
+                        .append('"');
             } else {
-                headerLine.append(headerFields.get(i)).append(',');
+                headerLine
+                        .append('"')
+                        .append(headerFields.get(i))
+                        .append('"')
+                        .append(',');
             }
         }
         pw.println(headerLine);
@@ -124,10 +131,22 @@ public class Merger {
             for (String field : headerFields) {
                 String rec = record.get(field);
                 if (i == headerFields.size() - 1) {
-                    if(rec != null) recordString.append(rec);
+                    if (rec != null)
+                        recordString
+                                .append('"')
+                                .append(rec)
+                                .append('"');
                 } else {
-                    if(rec != null) recordString.append(rec).append(',');
-                    else recordString.append(" ,");
+                    if (rec != null)
+                        recordString
+                                .append('"')
+                                .append(rec)
+                                .append('"')
+                                .append(',');
+                    else recordString
+                            .append('"')
+                            .append('"')
+                            .append(',');
                 }
                 i++;
             }
