@@ -9,8 +9,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class FileMergerTest {
 
-    public static final FileMerger subject = new FileMerger();
-    public static String[] input = {"src/test/resources/first.html", "src/test/resources/second.csv"};
+    private static final FileMerger subject = new FileMerger();
+    private static String[] input = {"src/test/resources/first.html", "src/test/resources/second.csv"};
 
     @Test
     void prepareInputFiles() {
