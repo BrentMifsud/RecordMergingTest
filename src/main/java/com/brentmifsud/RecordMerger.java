@@ -39,7 +39,9 @@ public class RecordMerger {
 		* All records are to be included in the output file.
 		* The record IDs that only exist in a single file will have some fields as empty strings.
 		*
-		* Example output: Jane Doe is the only person that exists in both files:
+		* Example output:
+		* Jane Doe is the only person that exists in both files
+		*
 		* "Occupation","Address","PhoneNum","ID","Gender","Name"
 		* "","123 Apple Street","555-1234","1111","","John Smith"
 		* "Doctor","","","3333","Female","Mary Phil"
