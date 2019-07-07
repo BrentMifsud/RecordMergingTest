@@ -1,23 +1,19 @@
-USAGE INSTRUCTIONS:
--------------------
+# USAGE INSTRUCTIONS
 
-If for some reason the build folder is missing, in the command line, navigate to the RecordMerger folder.
-Then enter:
-
-On Mac:
-./gradlew cleanBuild
-
-On Windows:
-gradlew cleanbuild
-
-To run the application:
-
-1. Navigate to build/libs/ folder in your terminal
+1. navigate to the RecordMerger folder.
 2. enter:
 
-java -jar RecordMerger-1.0.jar RecordMerger/src/main/resources/first.html RecordMerger/src/main/resources/second.csv
+    On Mac: `./gradlew cleanBuild`
 
-The output will be saved in the same folder as RecordMerger-1.0.jar (RecordMerger/build/libs/out/combined.csv)
+    On Windows: `gradlew cleanbuild`
+
+3. Navigate to `build/libs/` folder in your terminal
+4. enter:
+
+    `java -jar RecordMerger-1.0.jar RecordMerger/src/main/resources/first.html RecordMerger/src/main/resources/second.csv`
+
+    The output will be saved in the same folder as RecordMerger-1.0.jar: 
+    `RecordMerger/build/libs/out/combined.csv`
 
 
 
@@ -40,8 +36,11 @@ Your design must take into consideration of future support of new input file for
 
 
 Note 1: DO NOT MODIFY THE GIVEN DATA FILES!
+
 Note 2: you can include any open-source libraries you need in addition to what's provided in "lib" directory.
+
 Note 3: Use the given RecordMerger class as a starting point.
+
 Note 4: A header row is required in the final CSV file.
 
 
