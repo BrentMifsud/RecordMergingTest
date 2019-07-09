@@ -10,10 +10,8 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.brentmifsud.RecordMerger.FILENAME_COMBINED;
 
@@ -94,21 +92,37 @@ public class FileMerger {
         return dataMap;
     }
 
-    public void writeOutputFile(Map<String, Map<String, String>> dataMap) throws IOException {
+    public List<Map<String, String>> sortById(Map<String, Map<String, String>> dataMap) {
+        //Sort records by ID
+        List<String> sortedKeys = dataMap.keySet()
+                .stream()
+                .sorted(Comparator.naturalOrder())
+                .collect(Collectors.toList());
+
+        List<Map<String,String>> sortedData = new ArrayList<>();
+
+        for (String key : sortedKeys){
+            sortedData.add(dataMap.get(key));
+        }
+
+        return sortedData;
+    }
+
+    public void writeOutputFile(List<Map<String,String>> mapList) throws IOException {
         //Find the record that has data in every column and store its key.
         //We need this to build the header.
-        int maxProperties = 0;
-        String maxPropertiesId = "";
-        for (Map.Entry<String, Map<String, String>> pair : dataMap.entrySet()) {
-            if (pair.getValue().values().size() >= maxProperties) {
-                maxProperties = pair.getValue().values().size();
-                maxPropertiesId = pair.getKey();
+        int maxPropertiesCount = 0;
+        Map<String,String> maxProperties = null;
+        for (Map<String,String> dataItem : mapList) {
+            if (dataItem.values().size() >= maxPropertiesCount) {
+                maxPropertiesCount = dataItem.values().size();
+                maxProperties = dataItem;
             }
         }
 
         //Build and write header
         List<String> headerFields = new ArrayList<>();
-        dataMap.get(maxPropertiesId).forEach((k, v) -> headerFields.add(k));
+        maxProperties.forEach((k, v) -> headerFields.add(k));
         String headerLine = getOutputHeader(headerFields);
 
         PrintWriter pw;
@@ -121,8 +135,7 @@ public class FileMerger {
         pw.println(headerLine);
 
         //Build and write the merged records
-        for (Map.Entry<String, Map<String, String>> pair : dataMap.entrySet()) {
-            Map<String, String> record = pair.getValue();
+        for (Map<String,String> record : mapList) {
             StringBuilder recordString = getOutputRecord(headerFields, record);
             pw.println(recordString);
         }

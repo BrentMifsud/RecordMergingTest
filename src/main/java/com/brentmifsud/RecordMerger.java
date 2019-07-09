@@ -53,9 +53,10 @@ public class RecordMerger {
          */
         List<File> validatedFiles = fileMerger.prepareInputFiles(args);
         Map<String, Map<String,String>> dataMap = fileMerger.parseFiles(validatedFiles);
+        List<Map<String,String>> sortedMapList = fileMerger.sortById(dataMap);
 
         try {
-            fileMerger.writeOutputFile(dataMap);
+            fileMerger.writeOutputFile(sortedMapList);
         } catch (IOException e) {
             e.printStackTrace();
         }
