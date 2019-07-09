@@ -109,8 +109,8 @@ public class FileMerger {
     }
 
     public void writeOutputFile(List<Map<String,String>> mapList) throws IOException {
-        //Find the record that has data in every column and store its key.
-        //We need this to build the header.
+        //Find the record that has data in every column.
+        //We need the fields from this record to generically build the header row without knowing what each column is.
         int maxPropertiesCount = 0;
         Map<String,String> maxProperties = null;
         for (Map<String,String> dataItem : mapList) {
@@ -121,8 +121,11 @@ public class FileMerger {
         }
 
         //Build and write header
-        List<String> headerFields = new ArrayList<>();
-        maxProperties.forEach((k, v) -> headerFields.add(k));
+        List<String> headerFields = maxProperties.entrySet()
+                        .stream()
+                        .map(entry -> entry.getKey())
+                        .collect(Collectors.toList());
+
         String headerLine = getOutputHeader(headerFields);
 
         PrintWriter pw;
